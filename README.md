@@ -1,5 +1,9 @@
 #  Relational Netflix inspired Database
 
+![Database](https://img.shields.io/badge/PostgreSQL-blue)
+![DDl & DML Skript](https://img.shields.io/badge/Python-orange)
+![Databse Diagram ](https://img.shields.io/badge/ERDiagram-red)
+
 A relational database project built with **PostgreSQL** that models a version of Netflix's content catalog.
 
 The database stores information about movies and TV shows, including titles, actors, directors, genres, countries of production, and runtime details. It enables advanced searching and filtering capabilities that go beyond standard browsing options.
