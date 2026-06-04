@@ -86,12 +86,37 @@ The raw CSV data was processed and inserted into the database using Python scrip
 3. Insert records into relational tables
 4. Establish entity relationships through junction tables
 
-<img width="49%" height="420" alt="Python Import Script" src="https://github.com/user-attachments/assets/68898123-be47-4ead-9e3b-ef1cf6b709ee" />
+Example of actor and casts:
+```
+actor_id_map = {}
+next_actor_id = 1
 
-<img width="49%" height="491" alt="Database Population" src="https://github.com/user-attachments/assets/4d4d5b46-381a-4cf6-86a2-90dbed3accf5" />
+actor_insert = """
+INSERT INTO Actor (actor_id, actor_name)
+VALUES (%s, %s)
+"""
+casts_insert = """
+INSERT INTO Casts (actor_id, show_id)
+VALUES (%s, %s)
+"""
 
-<img width="49%" height="284" alt="Database Results" src="https://github.com/user-attachments/assets/f6e329fb-5d4b-49bd-b24e-2e8bfcd3c32b" />
-
+for _, row in df.iterrows():
+    if pd.isna(row["cast"]):
+        continue
+    actors = [a.strip() for a in row["cast"].split(",")]
+    for a in actors:
+        if a not in actor_id_map:
+            actor_id_map[a] = next_actor_id
+            cursor.execute(
+                actor_insert,
+                (next_actor_id, a)
+            )
+            next_actor_id += 1
+        cursor.execute(
+            casts_insert,
+            (actor_id_map[a], row["show_id"])
+        )
+```
 ---
 ## Example Queries 
 
