@@ -124,23 +124,46 @@ for _, row in df.iterrows():
 ---
 ## Example Queries 
 
-Find all titles featuring a specific actor:
+JOIN + SORTING: Which actors appear in which shows? Sorted by show title.
 
 ```sql
-SELECT t.title
-FROM title t
-JOIN has_cast hc ON t.id = hc.title_id
-JOIN actor a ON hc.actor_id = a.id
-WHERE a.name = 'Tom Hanks';
+SELECT a.actor_name, a.id, t.titel, t.show_id
+FROM actor a
+JOIN casts  h ON a. actor_id = h. actor_id
+JOIN title ON t.show_id = h.show_id
+ORDER BY t.titel ASC;
 ```
-
-Find all movies produced in Germany:
+Aggregate function + GROUP BY: How many shows are there per release year?
 
 ```sql
-SELECT title
-FROM title
-WHERE country = 'Germany';
+SELECT 
+    release_year,
+    COUNT(*) AS number_of_shows
+FROM Titel
+GROUP BY release_year
+ORDER BY release_year;
 ```
+Aggregation + HAVING clause:  Show all years in which more than 2 shows were released.
+
+```sql
+SELECT 
+    release_year,
+    COUNT(*) AS count_shows
+FROM Titel
+GROUP BY release_year
+HAVING COUNT(*) > 2;
+```
+Cartesian Product (CROSS JOIN): All possible combinations of show titles and genres (theoretical combinations).
+
+```sql
+SELECT 
+    T.titel,
+    G.main_genre
+FROM Titel T
+CROSS JOIN Genre G
+ORDER BY T.titel, G.main_genre;
+```
+
 ##  Technologies Used
 
 | Category        | Technology     |
@@ -151,6 +174,7 @@ WHERE country = 'Germany';
 | Data Source     | Kaggle Dataset |
 | Modeling        | ER Diagram     |
 
+### Data Source: https://www.kaggle.com/datasets/rahulvyasm/netflix-movies-and-tv-shows/data
 ---
 
 ## Technical Skills Applied
