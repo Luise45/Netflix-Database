@@ -22,7 +22,7 @@ Users can query content by:
 *  Runtime
 * Title
 
-The project covers the complete database development process, from conceptual modeling to data population and querying.
+
 ---
 ##  Database Design
 
